@@ -32,8 +32,8 @@ Adafruit_SSD1306 display(128,64, &Wire, 4);
 Weather sensor;
 
 /* define variables */
-float humidity = 0;
-float tempC = 0;
+float humidity = 0;           // variable for humidity readings 
+float tempC = 0;              // variable for temperature readings 
 
 bool goToSleep = false;       // if 1, don't sleep
 bool updateDisplay = false;   // if 1, update display
@@ -110,7 +110,7 @@ void loop() {
 
   // disable OLED activation and sleep for 10 seconds 
   updateDisplay = false; 
-  powerDownWatchdog(60); 
+  powerDownWatchdog(10); 
 }
 
 /*
