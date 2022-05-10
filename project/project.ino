@@ -35,7 +35,7 @@ Weather sensor;
 float humidity = 0;           // variable for humidity readings 
 float tempC = 0;              // variable for temperature readings 
 
-bool goToSleep = false;       // if 1, don't sleep
+bool goToSleep = true;        // if 1, sleep
 bool updateDisplay = false;   // if 1, update display
 
 void setup() {
@@ -108,9 +108,9 @@ void loop() {
     display.display(); 
   } 
 
-  // disable OLED activation and sleep for 10 seconds 
+  // disable OLED activation and sleep for 5 minutes
   updateDisplay = false; 
-  powerDownWatchdog(10); 
+  powerDownWatchdog(300); 
 }
 
 /*
@@ -135,13 +135,13 @@ void powerDownWatchdog(int sleep_time) {
   // device sleeps for sleep_time seconds 
   for(unsigned char i = 0; i < sleep_time; i++) {
     // if woken up by external interrupt, break out of loop 
-    if(goToSleep == true) break; 
+    if(goToSleep == false) break; 
     asm("sleep"); // inline assembler to go to sleep
   }
   
   WDTCSR |= (1 << WDE) | (1 << WDCE); // set watchdog enable (WDE) and watchdog change enable (WDCE)
   WDTCSR = 0x00;                      // turn off WDT
-  goToSleep = false;  
+  goToSleep = true;                   // reset goToSleep
 }
 
 /*
@@ -166,6 +166,6 @@ ISR(WDT_vect) {
  */
 void digitalInterrupt() {
   // digital button-controlled interrupt
-  goToSleep = true; 
-  updateDisplay = true;  
+  goToSleep = false;    // don't sleep in while loop 
+  updateDisplay = true; // update the display
 }
