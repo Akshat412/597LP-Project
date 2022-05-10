@@ -1,2 +1,2 @@
 # 597LP-Project
-Final project for ECE 597LP: Design Principles for Low-Power Devices
+Final project for ECE 597LP: Design Principles for Low-Power Embedded Computers 
